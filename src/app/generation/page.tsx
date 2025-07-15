@@ -13,6 +13,11 @@ import {
   Settings,
   Bell,
   User,
+  ChevronRight,
+  Sparkles,
+  ArrowRight,
+  Calendar,
+  Package,
 } from "lucide-react";
 import {
   PieChart as RechartsPieChart,
@@ -46,6 +51,14 @@ const ClarityAIDashboard = () => {
   const [duration, setDuration] = useState<string>("");
   const [proudct, setProduct] = useState<Product[]>([]);
   const [open, setOpen] = useState<boolean>(false);
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [showResults, setShowResults] = useState<boolean>(false);
+
+
+  const handleDeleteProduct = (indexToDelete: number) => {
+    setProduct(proudct.filter((_, index) => index !== indexToDelete));
+  };
+
   // Sample data for visualizations
   const contentTypeData = [
     {
@@ -196,13 +209,26 @@ const ClarityAIDashboard = () => {
     return null;
   };
 
+  const handleGeneratePlan = () => {
+    setIsGenerating(true);
+    // Simulate AI generation process
+    setTimeout(() => {
+      setIsGenerating(false);
+      setShowResults(true);
+    }, 3000);
+  };
+
+  const handleViewDeepDive = () => {
+    router.push("/chat");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
+      {/* Navigation - Matching landing page style */}
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <div className="flex items-center hover:pointer">
+            <div className="flex items-center">
               <Brain className="h-8 w-8 text-blue-600 mr-2" />
               <a
                 className="text-xl font-bold text-gray-900 cursor-pointer"
@@ -223,86 +249,162 @@ const ClarityAIDashboard = () => {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header Inputs */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">
-            Marketing Campaign Plan
+        {/* Hero Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Create Your Marketing Strategy
           </h1>
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label
-                htmlFor="objective"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                What is your marketing objective?
-              </label>
-              <input
-                id="objective"
-                type="text"
-                value={objective}
-                onChange={(e) => setObjective(e.target.value)}
-                placeholder="e.g., boost sales, grow awareness"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Let our AI create a comprehensive, explainable marketing plan tailored to your goals. Add products for targeted campaigns or create a general strategy.
+          </p>
+        </div>
+
+        {/* Input Section */}
+        <div className="bg-white rounded-xl shadow-lg p-8 mb-8">
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Left Column - Campaign Details */}
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
+                <Target className="h-6 w-6 text-blue-600 mr-2" />
+                Campaign Details
+              </h2>
+
+              <div className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="objective"
+                    className="block text-sm font-semibold text-gray-900 mb-2"
+                  >
+                    Marketing Objective
+                  </label>
+                  <input
+                    id="objective"
+                    type="text"
+                    value={objective}
+                    onChange={(e) => setObjective(e.target.value)}
+                    placeholder="e.g., boost sales, grow awareness, launch new product"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="budget"
+                    className="block text-sm font-semibold text-gray-900 mb-2"
+                  >
+                    Budget (USD)
+                  </label>
+                  <input
+                    id="budget"
+                    type="number"
+                    min={0}
+                    value={budget}
+                    onChange={(e) => setBudget(e.target.value)}
+                    placeholder="e.g., 50000"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  />
+                </div>
+
+                <div>
+                  <label
+                    htmlFor="duration"
+                    className="block text-sm font-semibold text-gray-900 mb-2"
+                  >
+                    Campaign Timeframe
+                  </label>
+                  <input
+                    id="duration"
+                    type="text"
+                    value={duration}
+                    onChange={(e) => setDuration(e.target.value)}
+                    placeholder="e.g., 3 months, 6 weeks, Q2 2025"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  />
+                </div>
+              </div>
             </div>
-            <div>
-              <label
-                htmlFor="budget"
-                className="block text-sm font-medium text-gray-700 mb-2"
+
+            {/* Right Column - Products */}
+            <div className="space-y-6">
+              <div className="flex items-start justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2 flex items-center">
+                    <Package className="h-6 w-6 text-blue-600 mr-2" />
+                    Products to Promote
+                    <span className="ml-2 bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded-full font-normal">
+                      Optional
+                    </span>
+                  </h2>
+                  <p className="text-sm text-gray-600 mb-4">
+                    Add specific products for targeted recommendations, or skip for general strategy
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-4 max-h-60 overflow-y-auto">
+                {proudct.length > 0 ? (
+                  proudct.map((product, index) => (
+                    <ProductCard
+                      key={index}
+                      product={product}
+                      onDelete={() => handleDeleteProduct(index)}
+                    />
+                  ))
+                ) : (
+                  <div className="text-center py-8 text-gray-500 border-2 border-dashed border-gray-200 rounded-lg">
+                    <Package className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                    <p className="font-medium">No products added</p>
+                    <p className="text-sm">You can add products for more targeted campaigns</p>
+                    <p className="text-xs mt-1 text-gray-400">Or continue without products for general strategy</p>
+                  </div>
+                )}
+              </div>
+
+              <button
+                onClick={() => setOpen(true)}
+                className="w-full bg-white border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition-all duration-200 font-semibold flex items-center justify-center space-x-2"
               >
-                Budget
-              </label>
-              <input
-                id="budget"
-                type="number"
-                min={0}
-                value={budget}
-                onChange={(e) => setBudget(e.target.value)}
-                placeholder="Enter budget amount"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="objective"
-                className="block text-sm font-medium text-gray-700 mb-2"
-              >
-                Campaing time frame?
-              </label>
-              <input
-                id="objective"
-                type="text"
-                min={0}
-                value={duration}
-                onChange={(e) => setDuration(e.target.value)}
-                placeholder="e.g., 3 months, 6 weeks"
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              />
+                <Package className="h-5 w-5" />
+                <span>Add Product (Optional)</span>
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Product Inputs */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-6">
-            Campaign Products
-          </h1>
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 pb-6">
-            {proudct.map((product, index) => (
-              <ProductCard key={index} product={product} />
-            ))}
-            {proudct.length === 0 && (
-              <ProductCard
-                product={{ name: "Your Product", price: 100, category: "N/A" }}
-              />
-            )}
-          </div>
+        {/* Generate Button */}
+        <div className="text-center mb-8">
           <button
-            onClick={() => setOpen(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-500 transition-colors"
+            onClick={handleGeneratePlan}
+            disabled={!objective || !budget || !duration || isGenerating}
+            className="bg-gradient-to-r from-blue-900 to-blue-800 text-white px-12 py-4 rounded-xl text-lg font-bold hover:from-blue-800 hover:to-blue-700 transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center space-x-3 mx-auto"
           >
-            Add Product
+            {isGenerating ? (
+              <>
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                <span>Generating Strategy...</span>
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-6 w-6" />
+                <span>Generate Marketing Plan</span>
+                <ArrowRight className="h-6 w-6" />
+              </>
+            )}
           </button>
+
+          {(!objective || !budget || !duration) && (
+            <p className="text-sm text-gray-500 mt-3">
+              Please fill in the campaign details to continue
+            </p>
+          )}
+
+          {(objective && budget && duration) && (
+            <div className="mt-4 p-3 bg-blue-50 rounded-lg max-w-md mx-auto">
+              <p className="text-sm text-blue-700">
+                ✓ Ready to generate! {proudct.length > 0 ? `Including ${proudct.length} product${proudct.length > 1 ? 's' : ''}` : 'Creating general strategy'}
+              </p>
+            </div>
+          )}
         </div>
 
         <ProductForm
@@ -311,337 +413,135 @@ const ClarityAIDashboard = () => {
           onSubmit={(product: Product) => setProduct([...proudct, product])}
         />
 
-        {/* Section 1: Content Type Distribution */}
-        {/* <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Content Type Distribution
-              </h2>
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RechartsPieChart>
-                    <Pie
-                      data={contentTypeData}
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {contentTypeData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip content={<CustomTooltip payload={[]} active />} />
-                  </RechartsPieChart>
-                </ResponsiveContainer>
+        {/* Results Section */}
+        {showResults && (
+          <div className="space-y-8">
+            {/* Success Message */}
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 text-center">
+              <div className="flex items-center justify-center mb-4">
+                <div className="bg-green-100 rounded-full p-3">
+                  <Sparkles className="h-8 w-8 text-green-600" />
+                </div>
               </div>
-              <div className="grid grid-cols-2 gap-2 mt-4">
-                {contentTypeData.map((item, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: item.color }}
-                    ></div>
-                    <span className="text-sm text-gray-600">
-                      {item.name}: {item.value}%
-                    </span>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                Your Marketing Strategy is Ready!
+              </h3>
+              <p className="text-gray-600 mb-4">
+                AI has analyzed your objectives and created a comprehensive plan with explainable recommendations
+              </p>
+              <button
+                onClick={handleViewDeepDive}
+                className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold flex items-center space-x-2 mx-auto"
+              >
+                <span>View Complete Strategy</span>
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Quick Overview Cards */}
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <BarChart3 className="h-8 w-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">12 Campaigns</h3>
+                <p className="text-gray-600">Optimized across multiple channels</p>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">5.4x ROAS</h3>
+                <p className="text-gray-600">Projected return on ad spend</p>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="h-8 w-8 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">3 Months</h3>
+                <p className="text-gray-600">Strategic timeline breakdown</p>
+              </div>
+            </div>
+
+            {/* Preview Section with Charts */}
+            <div className="bg-white rounded-xl shadow-lg p-8">
+              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
+                Strategy Preview
+              </h2>
+
+              <div className="grid lg:grid-cols-2 gap-8">
+                {/* Content Type Distribution */}
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    Content Type Distribution
+                  </h3>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RechartsPieChart>
+                        <Pie
+                          data={contentTypeData.slice(0, 6)}
+                          cx="50%"
+                          cy="50%"
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {contentTypeData.slice(0, 6).map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip content={<CustomTooltip payload={[]} active />} />
+                      </RechartsPieChart>
+                    </ResponsiveContainer>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
-                Why this recommendation?
-              </h3>
-              <p className="text-gray-700 mb-4">
-                Video content leads at 25% because your target audience (Gen Z
-                and millennials) engages 3x more with video formats. Carousel
-                ads follow at 18% due to their proven 30% higher CTR for product
-                showcases. Static images provide cost-effective brand awareness,
-                while influencer posts leverage social proof for authenticity.
-              </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
-            </div>
-          </div>
-        </div> */}
+                </div>
 
-        {/* Section 2: Channel Mix */}
-        {/* <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Channel Mix
-              </h2>
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <RechartsPieChart>
-                    <Pie
-                      data={channelMixData}
-                      cx="50%"
-                      cy="50%"
-                      innerRadius={60}
-                      outerRadius={100}
-                      fill="#8884d8"
-                      dataKey="value"
-                    >
-                      {channelMixData.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Pie>
-                    <Tooltip />
-                  </RechartsPieChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="grid grid-cols-2 gap-2 mt-4">
-                {channelMixData.map((item, index) => (
-                  <div key={index} className="flex items-center space-x-2">
-                    <div
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: item.color }}
-                    ></div>
-                    <span className="text-sm text-gray-600">
-                      {item.name}: {item.value}%
-                    </span>
+                {/* Channel Mix */}
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                    Channel Mix
+                  </h3>
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RechartsPieChart>
+                        <Pie
+                          data={channelMixData.slice(0, 6)}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={40}
+                          outerRadius={80}
+                          fill="#8884d8"
+                          dataKey="value"
+                        >
+                          {channelMixData.slice(0, 6).map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </RechartsPieChart>
+                    </ResponsiveContainer>
                   </div>
-                ))}
+                </div>
               </div>
-              <p className="text-sm text-gray-600 mt-4">
-                Meta chosen for high reach and prior conversion efficiency at
-                30%. Google Search provides intent-driven traffic at 25%.
-              </p>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
-                Why this recommendation?
-              </h3>
-              <p className="text-gray-700 mb-4">
-                Meta platforms dominate at 30% due to their superior audience
-                targeting and your historical 6.2x ROAS. Google Search captures
-                high-intent users at 25%, while YouTube provides video-native
-                environment for content engagement. Email maintains 10% for
-                nurturing existing customers with personalized messaging.
-              </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
+
+              {/* CTA */}
+              <div className="text-center mt-8 pt-6 border-t border-gray-200">
+                <p className="text-gray-600 mb-4">
+                  This is just a preview. Get the complete strategy with detailed explanations.
+                </p>
+                <button
+                  onClick={handleViewDeepDive}
+                  className="bg-gradient-to-r from-blue-900 to-blue-800 text-white px-8 py-3 rounded-lg hover:from-blue-800 hover:to-blue-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center space-x-2 mx-auto"
+                >
+                  <span>View Complete Analysis</span>
+                  <ArrowRight className="h-5 w-5" />
+                </button>
+              </div>
             </div>
           </div>
-        </div> */}
-
-        {/* Section 3: Audience Segmentation */}
-        {/* <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Audience Segmentation
-              </h2>
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={audienceData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis
-                      dataKey="segment"
-                      angle={-45}
-                      textAnchor="end"
-                      height={100}
-                    />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="value" fill="#009FDB" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="mt-4 space-y-2">
-                <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                  <span className="text-sm font-medium">
-                    Primary: Urban Millennials (25-34)
-                  </span>
-                  <span className="text-sm text-blue-600">35%</span>
-                </div>
-                <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                  <span className="text-sm font-medium">
-                    Secondary: Suburban Professionals (35-44)
-                  </span>
-                  <span className="text-sm text-blue-600">28%</span>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
-                Why this recommendation?
-              </h3>
-              <p className="text-gray-700 mb-4">
-                Urban millennials (25-34) are prioritized at 35% due to their
-                8.4x higher ROAS in sustainability campaigns and 65%
-                mobile-first behavior. Suburban professionals follow at 28% for
-                their higher lifetime value and brand loyalty. Eco-conscious
-                consumers span demographics but show 40% higher conversion rates
-                for sustainable products.
-              </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
-            </div>
-          </div>
-        </div> */}
-
-        {/* Section 4: Aggregate KPIs */}
-        {/* <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Aggregate KPIs
-              </h2>
-              <div className="grid grid-cols-2 gap-4">
-                {kpiData.map((kpi, index) => {
-                  const IconComponent = kpi.icon;
-                  return (
-                    <div key={index} className="bg-gray-50 rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-2">
-                        <IconComponent className="h-5 w-5 text-blue-600" />
-                        <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">
-                          {kpi.confidence}
-                        </span>
-                      </div>
-                      <h3 className="text-sm font-medium text-gray-600">
-                        {kpi.metric}
-                      </h3>
-                      <p className="text-2xl font-bold text-gray-900">
-                        {kpi.value}
-                      </p>
-                    </div>
-                  );
-                })}
-              </div>
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-blue-900 mb-2">
-                  Key Insights
-                </h4>
-                <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• 5.4x ROAS exceeds industry average by 80%</li>
-                  <li>• $24.50 CPA is 35% below target threshold</li>
-                  <li>• 3.4% CTR indicates strong creative resonance</li>
-                </ul>
-              </div>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
-                Why this recommendation?
-              </h3>
-              <p className="text-gray-700 mb-4">
-                The projected 5.4x ROAS is based on historical performance data
-                and current market conditions. The $24.50 CPA reflects optimized
-                targeting and creative testing. With 95% confidence, we expect
-                12 campaigns to generate $847K revenue from $156K investment.
-                CTR of 3.4% indicates strong audience-creative alignment.
-              </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
-            </div>
-          </div>
-        </div> */}
-
-        {/* Section 5: 3-Month Calendar */}
-        {/* <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                3-Month Calendar
-              </h2>
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={calendarData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar
-                      dataKey="video"
-                      stackId="a"
-                      fill="#002C5F"
-                      name="Video"
-                    />
-                    <Bar
-                      dataKey="carousel"
-                      stackId="a"
-                      fill="#009FDB"
-                      name="Carousel"
-                    />
-                    <Bar
-                      dataKey="static"
-                      stackId="a"
-                      fill="#4A90E2"
-                      name="Static"
-                    />
-                    <Bar
-                      dataKey="influencer"
-                      stackId="a"
-                      fill="#7BB3F0"
-                      name="Influencer"
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-4">
-                <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <h4 className="font-semibold text-gray-900">Month 1</h4>
-                  <p className="text-sm text-gray-600">Launch & Awareness</p>
-                  <p className="text-sm text-blue-600">21 campaigns</p>
-                </div>
-                <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <h4 className="font-semibold text-gray-900">Month 2</h4>
-                  <p className="text-sm text-gray-600">Scale & Optimize</p>
-                  <p className="text-sm text-blue-600">26 campaigns</p>
-                </div>
-                <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <h4 className="font-semibold text-gray-900">Month 3</h4>
-                  <p className="text-sm text-gray-600">Retention & Growth</p>
-                  <p className="text-sm text-blue-600">23 campaigns</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
-                Why this recommendation?
-              </h3>
-              <p className="text-gray-700 mb-4">
-                The campaign timeline follows a strategic arc: Month 1 focuses
-                on awareness with video-heavy content, Month 2 scales successful
-                formats while optimizing underperformers, and Month 3 shifts
-                toward retention with personalized static content and influencer
-                partnerships. This progression maximizes both reach and
-                conversion efficiency.
-              </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
-            </div>
-          </div>
-        </div> */}
-
-        {/* Action Buttons */}
-        {/* <div className="flex justify-center space-x-4 mt-8">
-          <button className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors">
-            Approve Campaign Plan
-          </button>
-          <button className="border border-gray-300 text-gray-700 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors">
-            Request Modifications
-          </button>
-          <button className="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors">
-            Export Dashboard
-          </button>
-        </div> */}
+        )}
       </div>
     </div>
   );
