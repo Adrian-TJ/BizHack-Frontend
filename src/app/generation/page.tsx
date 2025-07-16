@@ -19,19 +19,6 @@ import {
   Calendar,
   Package,
 } from "lucide-react";
-import {
-  PieChart as RechartsPieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-} from "recharts";
 
 // Hooks
 import { useRouter } from "next/navigation";
@@ -42,8 +29,9 @@ import { Product } from "@/models/product";
 // Custom components
 import ProductForm from "@/components/productForm";
 import ProductCard from "@/components/productCard";
+import ClarityAIDashboard from "../dashboard/page";
 
-const ClarityAIDashboard = () => {
+const ClarityAIGeneration = () => {
   const router = useRouter();
 
   const [objective, setObjective] = useState<string>("");
@@ -59,167 +47,24 @@ const ClarityAIDashboard = () => {
     setProduct(proudct.filter((_, index) => index !== indexToDelete));
   };
 
-  // Sample data for visualizations
-  const contentTypeData = [
-    {
-      name: "Video",
-      value: 25,
-      color: "#002C5F",
-      tooltip: "Video prioritized due to higher engagement with Gen Z",
-    },
-    {
-      name: "Carousel",
-      value: 18,
-      color: "#009FDB",
-      tooltip: "Carousel ads show 30% higher CTR for product showcases",
-    },
-    {
-      name: "Static Image",
-      value: 15,
-      color: "#4A90E2",
-      tooltip: "Cost-effective for brand awareness campaigns",
-    },
-    {
-      name: "Influencer Post",
-      value: 12,
-      color: "#7BB3F0",
-      tooltip: "Leverages social proof for millennial audience",
-    },
-    {
-      name: "Story",
-      value: 10,
-      color: "#A8D0FF",
-      tooltip: "High engagement for time-sensitive promotions",
-    },
-    {
-      name: "Reel",
-      value: 8,
-      color: "#C4E0FF",
-      tooltip: "Trending format for younger demographics",
-    },
-    {
-      name: "Blog",
-      value: 5,
-      color: "#E0F0FF",
-      tooltip: "Supports SEO and thought leadership",
-    },
-    {
-      name: "Live Session",
-      value: 4,
-      color: "#F0F8FF",
-      tooltip: "Builds authentic connection with audience",
-    },
-    {
-      name: "UGC",
-      value: 2,
-      color: "#F8FCFF",
-      tooltip: "Authentic content drives trust",
-    },
-    {
-      name: "Branded Content",
-      value: 1,
-      color: "#FCFEFF",
-      tooltip: "Premium placement for brand building",
-    },
-  ];
-
-  const channelMixData = [
-    { name: "Meta", value: 30, color: "#002C5F" },
-    { name: "Google Search", value: 25, color: "#009FDB" },
-    { name: "YouTube", value: 15, color: "#4A90E2" },
-    { name: "Email", value: 10, color: "#7BB3F0" },
-    { name: "LinkedIn", value: 8, color: "#A8D0FF" },
-    { name: "TikTok", value: 7, color: "#C4E0FF" },
-    { name: "Twitter", value: 3, color: "#E0F0FF" },
-    { name: "SMS", value: 2, color: "#F0F8FF" },
-  ];
-
-  const audienceData = [
-    { segment: "25-34 Urban Millennials", value: 35, category: "Demographics" },
-    {
-      segment: "35-44 Suburban Professionals",
-      value: 28,
-      category: "Demographics",
-    },
-    { segment: "18-24 Gen Z Students", value: 20, category: "Demographics" },
-    { segment: "High-Income Households", value: 40, category: "Income" },
-    { segment: "Mid-Income Families", value: 35, category: "Income" },
-    {
-      segment: "Eco-Conscious Consumers",
-      value: 45,
-      category: "Psychographics",
-    },
-    { segment: "Tech Early Adopters", value: 30, category: "Psychographics" },
-  ];
-
-  const kpiData = [
-    {
-      metric: "Campaign Count",
-      value: "12",
-      confidence: "95%",
-      icon: BarChart3,
-    },
-    {
-      metric: "Estimated Revenue",
-      value: "$847K",
-      confidence: "82%",
-      icon: DollarSign,
-    },
-    {
-      metric: "Estimated Cost",
-      value: "$156K",
-      confidence: "88%",
-      icon: TrendingUp,
-    },
-    { metric: "ROAS", value: "5.4x", confidence: "79%", icon: Target },
-    { metric: "CTR", value: "3.4%", confidence: "78%", icon: MousePointer },
-    { metric: "CPA", value: "$24.50", confidence: "81%", icon: Users },
-  ];
-
-  const calendarData = [
-    { month: "Month 1", video: 8, carousel: 6, static: 4, influencer: 3 },
-    { month: "Month 2", video: 10, carousel: 7, static: 5, influencer: 4 },
-    { month: "Month 3", video: 7, carousel: 5, static: 6, influencer: 5 },
-  ];
-
-  const CustomTooltip = ({
-    active,
-    payload,
-  }: {
-    active: boolean;
-    payload: Array<{
-      name: string;
-      value: number;
-      color: string;
-      tooltip?: string;
-    }>;
-  }) => {
-    if (active && payload && payload.length) {
-      const data = payload[0];
-      return (
-        <div className="bg-white p-3 border border-gray-200 rounded-lg shadow-lg">
-          <p className="font-semibold text-gray-900">{data.name}</p>
-          <p className="text-blue-600">{data.value}%</p>
-          {data.tooltip && (
-            <p className="text-sm text-gray-600 mt-1">{data.tooltip}</p>
-          )}
-        </div>
-      );
-    }
-    return null;
-  };
-
-  const handleGeneratePlan = () => {
-    setIsGenerating(true);
-    // Simulate AI generation process
-    setTimeout(() => {
-      setIsGenerating(false);
-      setShowResults(true);
-    }, 3000);
-  };
+const handleGeneratePlan = () => {
+  setIsGenerating(true);
+  setTimeout(() => {
+    setIsGenerating(false);
+    setShowResults(true);
+    
+    // Wait for next frame to ensure DOM is updated
+    requestAnimationFrame(() => {
+      window.scrollBy({
+        top: window.innerHeight,
+        behavior: 'smooth'
+      });
+    });
+  }, 8000);
+};
 
   const handleViewDeepDive = () => {
-    router.push("/chat");
+    router.push("/weekPlan");
   };
 
   return (
@@ -270,6 +115,23 @@ const ClarityAIDashboard = () => {
               </h2>
 
               <div className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="objective"
+                    className="block text-sm font-semibold text-gray-900 mb-2"
+                  >
+                    Marketing Objective
+                  </label>
+                  <input
+                    id="objective"
+                    type="text"
+                    value={objective}
+                    onChange={(e) => setObjective(e.target.value)}
+                    placeholder="e.g., boost sales, grow awareness, launch new product"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  />
+                </div>
+
                 <div>
                   <label
                     htmlFor="objective"
@@ -415,9 +277,9 @@ const ClarityAIDashboard = () => {
 
         {/* Results Section */}
         {showResults && (
-          <div className="space-y-8">
+          <div id="results-section" className="space-y-0">
             {/* Success Message */}
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 text-center">
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 border border-green-200 rounded-xl p-6 text-center my-4">
               <div className="flex items-center justify-center mb-4">
                 <div className="bg-green-100 rounded-full p-3">
                   <Sparkles className="h-8 w-8 text-green-600" />
@@ -429,6 +291,48 @@ const ClarityAIDashboard = () => {
               <p className="text-gray-600 mb-4">
                 AI has analyzed your objectives and created a comprehensive plan with explainable recommendations
               </p>
+            </div>
+
+            {/* Quick Overview Cards */}
+            <div className="grid md:grid-cols-3 gap-6">
+              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <TrendingUp className="h-8 w-8 text-blue-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">$156K</h3>
+                <p className="text-gray-600">Estimated Cost</p>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="h-8 w-8 text-green-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">5.4x ROAS</h3>
+                <p className="text-gray-600">Projected return on ad spend</p>
+              </div>
+
+              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
+                <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <DollarSign className="h-8 w-8 text-purple-600" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 mb-2">$847K</h3>
+                <p className="text-gray-600">Estimated Revenue</p>
+              </div>
+            </div>
+            <ClarityAIDashboard />
+
+            <div className="bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-xl p-6 text-center">
+              <div className="flex items-center justify-center mb-4">
+                <div className="bg-purple-100 rounded-full p-3">
+                  <Calendar className="h-8 w-8 text-purple-600" />
+                </div>
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-2">
+                Let's Dive Deeper!
+              </h3>
+              <p className="text-gray-600 mb-4">
+                AI has analyzed your objectives and created a personalized plan with content and explainable recommendations
+              </p>
               <button
                 onClick={handleViewDeepDive}
                 className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold flex items-center space-x-2 mx-auto"
@@ -437,109 +341,6 @@ const ClarityAIDashboard = () => {
                 <ChevronRight className="h-5 w-5" />
               </button>
             </div>
-
-            {/* Quick Overview Cards */}
-            <div className="grid md:grid-cols-3 gap-6">
-              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <BarChart3 className="h-8 w-8 text-blue-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">12 Campaigns</h3>
-                <p className="text-gray-600">Optimized across multiple channels</p>
-              </div>
-
-              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <TrendingUp className="h-8 w-8 text-green-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">5.4x ROAS</h3>
-                <p className="text-gray-600">Projected return on ad spend</p>
-              </div>
-
-              <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="h-8 w-8 text-purple-600" />
-                </div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">3 Months</h3>
-                <p className="text-gray-600">Strategic timeline breakdown</p>
-              </div>
-            </div>
-
-            {/* Preview Section with Charts */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-                Strategy Preview
-              </h2>
-
-              <div className="grid lg:grid-cols-2 gap-8">
-                {/* Content Type Distribution */}
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Content Type Distribution
-                  </h3>
-                  <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RechartsPieChart>
-                        <Pie
-                          data={contentTypeData.slice(0, 6)}
-                          cx="50%"
-                          cy="50%"
-                          outerRadius={80}
-                          fill="#8884d8"
-                          dataKey="value"
-                        >
-                          {contentTypeData.slice(0, 6).map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <Tooltip content={<CustomTooltip payload={[]} active />} />
-                      </RechartsPieChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-
-                {/* Channel Mix */}
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                    Channel Mix
-                  </h3>
-                  <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RechartsPieChart>
-                        <Pie
-                          data={channelMixData.slice(0, 6)}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={40}
-                          outerRadius={80}
-                          fill="#8884d8"
-                          dataKey="value"
-                        >
-                          {channelMixData.slice(0, 6).map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={entry.color} />
-                          ))}
-                        </Pie>
-                        <Tooltip />
-                      </RechartsPieChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              </div>
-
-              {/* CTA */}
-              <div className="text-center mt-8 pt-6 border-t border-gray-200">
-                <p className="text-gray-600 mb-4">
-                  This is just a preview. Get the complete strategy with detailed explanations.
-                </p>
-                <button
-                  onClick={handleViewDeepDive}
-                  className="bg-gradient-to-r from-blue-900 to-blue-800 text-white px-8 py-3 rounded-lg hover:from-blue-800 hover:to-blue-700 transition-all duration-200 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center space-x-2 mx-auto"
-                >
-                  <span>View Complete Analysis</span>
-                  <ArrowRight className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
           </div>
         )}
       </div>
@@ -547,4 +348,4 @@ const ClarityAIDashboard = () => {
   );
 };
 
-export default ClarityAIDashboard;
+export default ClarityAIGeneration;

@@ -9,8 +9,7 @@ interface ProductCardProps {
 
 export default function ProductCard({ product, onDelete }: ProductCardProps) {
   return (
-    <div className="grid sm:grid-cols-2 gap-4 bg-white rounded-lg shadow-md p-4 hover:shadow-lg transition-shadow duration-300 relative group">
-      {/* Delete button */}
+    <div className="grid sm:grid-cols-2 gap-4 bg-gray-50 rounded-lg shadow-lg border border-gray-300 p-4 hover:shadow-xl hover:bg-white transition-all duration-300 relative group">
       {onDelete && (
         <button
           onClick={onDelete}
@@ -19,7 +18,7 @@ export default function ProductCard({ product, onDelete }: ProductCardProps) {
           <X className="h-4 w-4" />
         </button>
       )}
-      
+
       <div className="flex flex-col align-middle xs:items-center sm:items-left">
         <h2 className="text-md font-semibold mb-2">{product.name}</h2>
         <p className="text-gray-700 mb-1">{product.category}</p>

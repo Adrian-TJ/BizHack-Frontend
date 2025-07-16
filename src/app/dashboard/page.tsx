@@ -68,81 +68,47 @@ const ClarityAIDashboard = () => {
     },
     {
       name: "Influencer Post",
-      value: 12,
+      value: 16,
       color: "#7BB3F0",
       tooltip: "Leverages social proof for millennial audience",
     },
     {
       name: "Story",
-      value: 10,
+      value: 12,
       color: "#A8D0FF",
       tooltip: "High engagement for time-sensitive promotions",
     },
     {
       name: "Reel",
-      value: 8,
+      value: 14,
       color: "#C4E0FF",
       tooltip: "Trending format for younger demographics",
-    },
-    {
-      name: "Blog",
-      value: 5,
-      color: "#E0F0FF",
-      tooltip: "Supports SEO and thought leadership",
-    },
-    {
-      name: "Live Session",
-      value: 4,
-      color: "#F0F8FF",
-      tooltip: "Builds authentic connection with audience",
-    },
-    {
-      name: "UGC",
-      value: 2,
-      color: "#F8FCFF",
-      tooltip: "Authentic content drives trust",
-    },
-    {
-      name: "Branded Content",
-      value: 1,
-      color: "#FCFEFF",
-      tooltip: "Premium placement for brand building",
     },
   ];
 
   const channelMixData = [
-    { name: "Meta", value: 30, color: "#002C5F" },
+    { name: "Meta", value: 33, color: "#002C5F" },
     { name: "Google Search", value: 25, color: "#009FDB" },
     { name: "YouTube", value: 15, color: "#4A90E2" },
-    { name: "Email", value: 10, color: "#7BB3F0" },
+    { name: "Email", value: 12, color: "#7BB3F0" },
     { name: "LinkedIn", value: 8, color: "#A8D0FF" },
     { name: "TikTok", value: 7, color: "#C4E0FF" },
-    { name: "Twitter", value: 3, color: "#E0F0FF" },
-    { name: "SMS", value: 2, color: "#F0F8FF" },
   ];
 
   const audienceData = [
-    { segment: "25-34 Urban Millennials", value: 35, category: "Demographics" },
+    { segment: "25-34 Urban Millennials", value: 45, category: "Demographics" },
     {
       segment: "35-44 Suburban Professionals",
-      value: 28,
+      value: 34,
       category: "Demographics",
     },
-    { segment: "18-24 Gen Z Students", value: 20, category: "Demographics" },
-    { segment: "High-Income Households", value: 40, category: "Income" },
-    { segment: "Mid-Income Families", value: 35, category: "Income" },
-    {
-      segment: "Eco-Conscious Consumers",
-      value: 45,
-      category: "Psychographics",
-    },
-    { segment: "Tech Early Adopters", value: 30, category: "Psychographics" },
+    { segment: "18-24 Gen Z Students", value: 21, category: "Demographics" },
   ];
 
   const kpiData = [
     {
       metric: "Campaign Count",
-      value: "12",
+      value: "70",
       confidence: "95%",
       icon: BarChart3,
     },
@@ -198,7 +164,7 @@ const ClarityAIDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
+      {/* Navigation
       <nav className="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
@@ -219,10 +185,69 @@ const ClarityAIDashboard = () => {
             </div>
           </div>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        {/* Section 3: Audience Segmentation */}
+        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+          <div className="grid lg:grid-cols-2 gap-8">
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                Audience Segmentation
+              </h2>
+              <div className="h-100">
+                <ResponsiveContainer width="100%" height="100%" className="my-4">
+                  <BarChart data={audienceData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis
+                      dataKey="segment"
+                      angle={-45}
+                      textAnchor="end"
+                      height={160}
+                      fontSize={15}
+                    />
+                    <YAxis />
+                    <Tooltip />
+                    <Bar dataKey="value" fill="#009FDB" />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="mt-4 space-y-2">
+                <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                  <span className="text-sm font-medium">
+                    Primary: Urban Millennials (25-34)
+                  </span>
+                  <span className="text-sm text-blue-600">45%</span>
+                </div>
+                <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                  <span className="text-sm font-medium">
+                    Secondary: Suburban Professionals (35-44)
+                  </span>
+                  <span className="text-sm text-blue-600">34%</span>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
+                Why this recommendation?
+              </h3>
+              <p className="text-gray-700 mb-4">
+                Meta platforms receive the largest share at 33%, driven by their advanced audience targeting capabilities
+                and a strong historical ROAS of 6.2x—especially effective with the 25–34 urban millennial segment, which
+                delivers an 8.4x return and exhibits 65% mobile-first behavior. Google Search captures 25% to engage
+                high-intent users, particularly among suburban professionals known for their elevated lifetime value
+                and strong brand loyalty. YouTube commands 17% as a video-native platform ideal for engaging this mobile-savvy
+                audience. Email retains 12%, focusing on personalized messaging to nurture existing relationships and
+                drive repeat conversions.
+              </p>
+              
+            </div>
+          </div>
+        </div>
+
         {/* Section 1: Content Type Distribution */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <div className="grid lg:grid-cols-2 gap-8">
@@ -275,9 +300,7 @@ const ClarityAIDashboard = () => {
                 showcases. Static images provide cost-effective brand awareness,
                 while influencer posts leverage social proof for authenticity.
               </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
+              
             </div>
           </div>
         </div>
@@ -324,7 +347,7 @@ const ClarityAIDashboard = () => {
               </div>
               <p className="text-sm text-gray-600 mt-4">
                 Meta chosen for high reach and prior conversion efficiency at
-                30%. Google Search provides intent-driven traffic at 25%.
+                33%. Google Search provides intent-driven traffic at 25%.
               </p>
             </div>
             <div className="bg-gray-50 rounded-lg p-6">
@@ -333,73 +356,13 @@ const ClarityAIDashboard = () => {
                 Why this recommendation?
               </h3>
               <p className="text-gray-700 mb-4">
-                Meta platforms dominate at 30% due to their superior audience
+                Meta platforms dominate at 33% due to their superior audience
                 targeting and your historical 6.2x ROAS. Google Search captures
                 high-intent users at 25%, while YouTube provides video-native
-                environment for content engagement. Email maintains 10% for
+                environment for content engagement. Email maintains 12% for
                 nurturing existing customers with personalized messaging.
               </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Section 3: Audience Segmentation */}
-        <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
-          <div className="grid lg:grid-cols-2 gap-8">
-            <div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                Audience Segmentation
-              </h2>
-              <div className="h-80">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={audienceData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis
-                      dataKey="segment"
-                      angle={-45}
-                      textAnchor="end"
-                      height={100}
-                    />
-                    <YAxis />
-                    <Tooltip />
-                    <Bar dataKey="value" fill="#009FDB" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="mt-4 space-y-2">
-                <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                  <span className="text-sm font-medium">
-                    Primary: Urban Millennials (25-34)
-                  </span>
-                  <span className="text-sm text-blue-600">35%</span>
-                </div>
-                <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                  <span className="text-sm font-medium">
-                    Secondary: Suburban Professionals (35-44)
-                  </span>
-                  <span className="text-sm text-blue-600">28%</span>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
-                Why this recommendation?
-              </h3>
-              <p className="text-gray-700 mb-4">
-                Urban millennials (25-34) are prioritized at 35% due to their
-                8.4x higher ROAS in sustainability campaigns and 65%
-                mobile-first behavior. Suburban professionals follow at 28% for
-                their higher lifetime value and brand loyalty. Eco-conscious
-                consumers span demographics but show 40% higher conversion rates
-                for sustainable products.
-              </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
+              
             </div>
           </div>
         </div>
@@ -432,16 +395,6 @@ const ClarityAIDashboard = () => {
                   );
                 })}
               </div>
-              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-                <h4 className="font-semibold text-blue-900 mb-2">
-                  Key Insights
-                </h4>
-                <ul className="text-sm text-blue-800 space-y-1">
-                  <li>• 5.4x ROAS exceeds industry average by 80%</li>
-                  <li>• $24.50 CPA is 35% below target threshold</li>
-                  <li>• 3.4% CTR indicates strong creative resonance</li>
-                </ul>
-              </div>
             </div>
             <div className="bg-gray-50 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
@@ -452,12 +405,20 @@ const ClarityAIDashboard = () => {
                 The projected 5.4x ROAS is based on historical performance data
                 and current market conditions. The $24.50 CPA reflects optimized
                 targeting and creative testing. With 95% confidence, we expect
-                12 campaigns to generate $847K revenue from $156K investment.
+                70 campaigns to generate $847K revenue from $156K investment.
                 CTR of 3.4% indicates strong audience-creative alignment.
               </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
+
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <h4 className="font-semibold text-blue-900 mb-2">
+                  Key Insights
+                </h4>
+                <ul className="text-sm text-blue-800 space-y-1">
+                  <li>• 5.4x ROAS exceeds industry average by 80%</li>
+                  <li>• $24.50 CPA is 35% below target threshold</li>
+                  <li>• 3.4% CTR indicates strong creative resonance</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
@@ -527,17 +488,14 @@ const ClarityAIDashboard = () => {
                 <HelpCircle className="h-5 w-5 mr-2 text-blue-600" />
                 Why this recommendation?
               </h3>
-              <p className="text-gray-700 mb-4">
-                The campaign timeline follows a strategic arc: Month 1 focuses
-                on awareness with video-heavy content, Month 2 scales successful
-                formats while optimizing underperformers, and Month 3 shifts
-                toward retention with personalized static content and influencer
-                partnerships. This progression maximizes both reach and
-                conversion efficiency.
-              </p>
-              <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                Ask Me More
-              </button>
+              <ul>
+                <li>• Launch Phase: Video content shows 340% higher engagement vs. static</li>
+                <li>• Awareness campaigns: Video generates 2.8x more shares than other formats</li>
+                <li>• Algorithm preference: 73% of platforms boost video content in organic reach</li>
+                <li>• Historical ROI: Video-heavy launches show 45% better brand recall after 30 days</li>
+              </ul>
+
+              
             </div>
           </div>
         </div>
